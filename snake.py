@@ -171,11 +171,12 @@ class App:
                 
                 #update highscore 
                 if(self.player.length>highscore):
+                    highscore=self.player.length
                     f= open("highscore.txt","w+")
-                    f.write(str(self.player.length))
+                    f.write(str(highscore))
                     f.close()
                     
-                self.end_menu()
+                self.end_menu(highscore)
                 print("Game over: ")
                 print("Your Score: "+ str(self.player.length))
                 print("x[0] (" + str(self.player.x[0]) + "," + str(self.player.y[0]) + ")")
@@ -235,7 +236,7 @@ class App:
             time.sleep (self.speed / 1000.0);
         self.on_cleanup()
     
-    def end_menu(self):
+    def end_menu(self, highscore):
         
         while(self._running):
             pygame.event.pump()
@@ -247,11 +248,16 @@ class App:
             TextSurf, TextRect = self.text_objects("Press SPACE to restart", final_score)
             TextRect.center = ((1000/2),(400/2))
             self._display_surf.blit(TextSurf, TextRect)
-            pygame.display.update()
+            #pygame.display.update()
             
             largeText = pygame.font.SysFont("comicsansms", 40)
             TextSurf, TextRect = self.text_objects("Your final score is "+str(self.player.length),largeText)
             TextRect.center = ((1000/2),(600/2))
+            self._display_surf.blit(TextSurf, TextRect)
+            
+            #largeText = pygame.font.SysFont("comicsansms", 40)
+            TextSurf, TextRect = self.text_objects("Highscore is "+str(highscore),largeText)
+            TextRect.center = ((1000/2),(800/2))
             self._display_surf.blit(TextSurf, TextRect)
             pygame.display.update()
             
